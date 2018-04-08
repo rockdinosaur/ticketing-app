@@ -1,0 +1,16 @@
+<%= render "shared/content_title", title: @ticket.name %>
+
+<p>
+  <%= @ticket.body %>
+</p>
+
+<p>
+  <strong>Tags:</strong>
+  <%= @ticket.tags.map { |tag| tag.name }.join(', ') %>
+</p>
+
+<%= link_to "Edit", edit_ticket_path(@ticket) %>
+
+<table>
+
+</table>

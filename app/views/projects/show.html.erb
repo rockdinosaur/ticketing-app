@@ -1,0 +1,14 @@
+<%= render "shared/content_title", title: @project.name %>
+
+<p>
+  <%= @project.description %>
+</p>
+
+<div class="control">
+  <%= link_to "Edit", edit_project_path(@project) %>
+  <%= link_to "Delete", project_path(@project), method: :delete, data: {confirm: "Are you sure?"} %>
+</div>
+
+<%= render "shared/content_title", title: "Tickets" %>
+
+<%= render "tickets/tickets_table", tickets: @project.tickets %>

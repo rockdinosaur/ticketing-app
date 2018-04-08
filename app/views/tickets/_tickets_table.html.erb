@@ -1,0 +1,21 @@
+<table>
+  <tr>
+    <th>Name</th>
+    <!-- <th>Assignee</th> -->
+    <th>Status</th>
+    <th>Tags</th>
+    <th></th>
+  </tr>
+  <% tickets.each do |ticket| %>
+  <tr>
+    <td><%= link_to ticket.name, ticket_path(ticket) %></td>
+    <!-- TODO: Assignee Missing -->
+    <td><%= ticket.status %></td>
+    <td><%= ticket.tags.map { |tag| tag.name }.join(", ")%></td>
+    <td>
+      <%= link_to "Edit", edit_ticket_path(ticket) %>
+      <%= link_to "Destroy", ticket_path(ticket), method: :delete, data: {confirm: "Are you sure?"} %>
+    </td>
+  </tr>
+  <% end %>
+</table>

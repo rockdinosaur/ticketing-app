@@ -1,0 +1,31 @@
+<%= form_for @ticket do |f| %>
+  <div class="control-group">
+    <%= f.label :project_id, 'Project' %>
+    <%= f.select :project_id do %>
+      <% Project.all.each do |project| %>
+        <%= content_tag(:option, project.name, value: project.id) %>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="control-group">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+  <div class="control-group">
+    <%= f.label :body %>
+    <%= f.text_area :body %>
+  </div>
+  <div class="control-group">
+    <% status_arr = %w(new blocked in_progress fixed) %>
+    <%= f.label :status %>
+    <%= f.select :status, status_arr %>
+  </div>
+  <div class="control-group">
+    <!--  TODO: ADD USERS -->
+  </div>
+  <div class="control-group">
+    <%= f.label :tag_ids, "Tags" %>
+    <%= f.select :tag_ids, Tag.all.map { |tag| [tag.name, tag.id] }, {}, multiple: true %>
+  </div>
+  <%= f.submit "Create Ticket" %>
+<% end %>
