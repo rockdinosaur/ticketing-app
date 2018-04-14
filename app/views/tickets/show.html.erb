@@ -1,16 +1,58 @@
 <%= render "shared/content_title", title: @ticket.name %>
 
 <p>
-  <%= @ticket.body %>
+  <em><%= @ticket.body %></em>
 </p>
 
 <p>
   <strong>Tags:</strong>
-  <%= @ticket.tags.map { |tag| tag.name }.join(', ') %>
+  <%= @ticket.tags.map { |tag| tag.name }.sort.join(', ') %>
 </p>
 
-<%= link_to "Edit", edit_ticket_path(@ticket) %>
+<% if logged_in? %>
+  <%= link_to "Edit", edit_ticket_path(@ticket), class: "btn btn-primary" %>
+<% end %>
 
-<table>
-
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Status</th>
+      <th scope="col">Creator</th>
+      <th scope="col">Assignee</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @ticket.status %></td>
+      <td><%= @ticket.creator.name %></td>
+      <td><%= @ticket.assignee.blank? ? '' : @ticket.assignee.name %></td>
+    </tr>
+  </tbody>
 </table>
+
+<%= render "shared/content_title", title: "Comments" %>
+
+<ul class="list-group">
+  <% @ticket.comments.each do |comment| %>
+    <li class="list-group-item">
+      <p>
+        <%= comment.body %>
+      </p>
+      <p>
+        <small><em>posted by <%= comment.creator.name %>
+          <%= time_ago_in_words(comment.created_at, include_seconds: true) %> ago
+          <% if comment.updated_at != comment.created_at %>
+            - updated <%= time_ago_in_words(comment.updated_at, include_seconds: true) %>
+          <% end %>
+        </em></small>
+      </p>
+      <p>
+        <% if logged_in_as_creator?(comment) %>
+          <%= link_to "Edit", edit_ticket_comment_path(@ticket, comment), class: "btn btn-primary" %>
+        <% end %>
+      </p>
+    </li>
+  <% end %>
+</ul>
+
+<%= render 'comments/form' %>

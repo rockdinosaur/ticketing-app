@@ -1,15 +1,15 @@
 <%= render "shared/errors", obj: @project %>
 
 <%= form_for @project do |f| %>
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :name %>
-    <%= f.text_field :name %>
+    <%= f.text_field :name, class: "form-control" %>
   </div>
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :description %>
-    <%= f.text_area :description, rows: 5 %>
+    <%= f.text_area :description, rows: 5, class: "form-control" %>
   </div>
-  <%= f.submit (@project.new_record? ? "Create Project" : "Update Project") %>
+  <%= f.submit (@project.new_record? ? "Create Project" : "Update Project"), class: "btn btn-success" %>
 <% end %>
 
 <% if !@project.new_record? %>

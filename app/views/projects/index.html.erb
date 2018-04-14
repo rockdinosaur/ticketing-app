@@ -1,5 +1,13 @@
 <%= render "shared/content_title", title: "Projects" %>
 
-<%= render "projects_table", projects: @projects %>
+<% if @projects.blank? %>
+ <p>
+   <em>There are currently no projects.</em>
+ </p>
+<% else %>
+  <%= render "projects_table", projects: @projects %>
+<% end %>
 
-<%= link_to "New Project", new_project_path %>
+<% if logged_in? %>
+  <%= link_to "New Project", new_project_path, class: "btn btn-primary" %>
+<% end %>

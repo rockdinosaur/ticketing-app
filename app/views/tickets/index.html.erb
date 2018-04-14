@@ -1,5 +1,30 @@
 <%= render "shared/content_title", title: "Tickets" %>
 
-<%= render "tickets_table", tickets: @tickets %>
+<% if @tickets.blank? %>
+ <p>
+   <em>There aren't any tickets.</em>
+ </p>
+<% else %>
+  <%= form_tag(tickets_path, method: :get) do %>
+    Show tickets from
+    <%= select_tag :project, options_for_select(Project.all.map { |project| [project.name, project.id] }, params[:project]), { :include_blank => "All Projects" } %>
 
-<%= link_to "New Ticket", new_ticket_path %>
+    with status
+
+    <%= select_tag :status,
+    options_for_select(%w(new blocked in_progress fixed), params[:status]), { :include_blank => "Any Status" } %>
+
+    tagged
+
+    <%= select_tag :tag,
+    options_for_select(Tag.all.map { |tag| [tag.name, tag.id] }, params[:tag]), { :include_blank => "-" } %>
+
+    <%= submit_tag "Filter", class: "btn btn-info" %>
+    <%= link_to "Clear Filters", tickets_path, class: "btn btn-secondary" %>
+  <% end %>
+
+  <%= render "tickets_table", tickets: @tickets %>
+<% end %>
+<% if logged_in? %>
+  <%= link_to "New Ticket", new_ticket_path, class: "btn btn-primary" %>
+<% end %>

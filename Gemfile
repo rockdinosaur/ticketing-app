@@ -6,8 +6,10 @@ git_source(:github) do |repo_name|
 end
 
 gem 'pry'
-gem 'awesome_print'
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'bcrypt-ruby'
+gem 'jquery-rails'
+gem 'bootstrap-sass', '3.2.0.2'
+# Bundle edge Railss instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.5'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'

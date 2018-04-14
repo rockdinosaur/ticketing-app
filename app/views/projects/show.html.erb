@@ -4,11 +4,19 @@
   <%= @project.description %>
 </p>
 
-<div class="control">
-  <%= link_to "Edit", edit_project_path(@project) %>
-  <%= link_to "Delete", project_path(@project), method: :delete, data: {confirm: "Are you sure?"} %>
-</div>
+<% if logged_in? %>
+  <div class="control">
+    <%= link_to "Edit", edit_project_path(@project) %>
+    <%= link_to "Delete", project_path(@project), method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-danger" %>
+  </div>
+<% end %>
 
 <%= render "shared/content_title", title: "Tickets" %>
 
-<%= render "tickets/tickets_table", tickets: @project.tickets %>
+<% if @project.tickets.blank? %>
+ <p>
+   <em>This project doesn't have any tickets.</em>
+ </p>
+<% else %>
+  <%= render "tickets/tickets_table", tickets: @project.tickets %>
+<% end %>

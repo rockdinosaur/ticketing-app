@@ -1,23 +1,27 @@
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Open Tickets</th>
-    <th>Total Tickets</th>
-  </tr>
-  <% projects.each do |project| %>
+<table class="table">
+  <thead class="thead-dark">
     <tr>
-      <td>
-        <%= link_to project.name, project_path(project) %>
-        <p>
-          <%= project.description %>
-        </p>
-      </td>
-      <td>
-        <%= project.tickets.count { |ticket| ticket.status.downcase != 'fixed' } %>
-      </td>
-      <td>
-        <%= project.tickets.length %>
-      </td>
+      <th scope="col">Name</th>
+      <th scope="col">Open Tickets</th>
+      <th scope="col">Total Tickets</th>
     </tr>
-  <% end %>
+  </thead>
+  <tbody>
+    <% projects.each do |project| %>
+      <tr>
+        <td>
+          <%= link_to project.name, project_path(project) %>
+          <p>
+            <em><%= project.description %></em>
+          </p>
+        </td>
+        <td>
+          <%= project.tickets.count { |ticket| ticket.status.downcase != 'fixed' } %>
+        </td>
+        <td>
+          <%= project.tickets.length %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>

@@ -1,4 +1,6 @@
 class ProjectsController < ApplicationController
+  before_action :require_user, except: [:show, :index]
+
   def index
     @projects = Project.all
   end

@@ -1,21 +1,39 @@
-<table>
-  <tr>
-    <th>Name</th>
-    <!-- <th>Assignee</th> -->
-    <th>Status</th>
-    <th>Tags</th>
-    <th></th>
-  </tr>
-  <% tickets.each do |ticket| %>
-  <tr>
-    <td><%= link_to ticket.name, ticket_path(ticket) %></td>
-    <!-- TODO: Assignee Missing -->
-    <td><%= ticket.status %></td>
-    <td><%= ticket.tags.map { |tag| tag.name }.join(", ")%></td>
-    <td>
-      <%= link_to "Edit", edit_ticket_path(ticket) %>
-      <%= link_to "Destroy", ticket_path(ticket), method: :delete, data: {confirm: "Are you sure?"} %>
-    </td>
-  </tr>
-  <% end %>
-</table>
+<% if tickets.any? { |ticket| meets_search_criteria?(ticket) } %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Assignee</th>
+        <th scope="col">Status</th>
+        <th scope="col">Tags</th>
+        <% if logged_in? %>
+          <th scope="col">Action</th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% tickets.each do |ticket| %>
+        <% if meets_search_criteria?(ticket) %>
+          <tr>
+            <td><%= link_to ticket.name, ticket_path(ticket) %></td>
+            <td><%= ticket.assignee.blank? ? '' : ticket.assignee.name  %></td>
+            <td><%= ticket.status %></td>
+            <td><%= ticket.tags.map { |tag| tag.name }.join(", ")%></td>
+            <td>
+              <% if logged_in? %>
+                <%= link_to "Edit", edit_ticket_path(ticket) %> or
+                <%= link_to "Destroy", ticket_path(ticket), method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-danger" %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+
+<% else %>
+  <p>
+    <em>There are no tickets matching your filters.</em>
+    <%= link_to "Clear filters and show all tickets", tickets_path %>
+  </p>
+<% end %>

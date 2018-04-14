@@ -1,0 +1,13 @@
+<%= render 'shared/content_title', title: 'Tags' %>
+
+<% if @tags.blank? %>
+  <p>
+    <em>There are currently no tags.</em>
+  </p>
+<% else %>
+  <%= render 'tags_table', tags: @tags %>
+<% end %>
+
+<% if logged_in? %>
+  <%= link_to "New Tag", new_tag_path, class: "btn btn-primary" %>
+<% end %>

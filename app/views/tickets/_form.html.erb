@@ -1,31 +1,30 @@
+<%= render 'shared/errors', obj: @ticket %>
+
 <%= form_for @ticket do |f| %>
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :project_id, 'Project' %>
-    <%= f.select :project_id do %>
-      <% Project.all.each do |project| %>
-        <%= content_tag(:option, project.name, value: project.id) %>
-      <% end %>
-    <% end %>
+    <%= f.select :project_id, Project.all.map { |project| [project.name, project.id] }, class: "form-control" %>
   </div>
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :name %>
-    <%= f.text_field :name %>
+    <%= f.text_field :name, class: "form-control" %>
   </div>
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :body %>
-    <%= f.text_area :body %>
+    <%= f.text_area :body, class: "form-control" %>
   </div>
-  <div class="control-group">
+  <div class="form-group">
     <% status_arr = %w(new blocked in_progress fixed) %>
     <%= f.label :status %>
-    <%= f.select :status, status_arr %>
+    <%= f.select :status, status_arr, class: "form-control" %>
   </div>
-  <div class="control-group">
-    <!--  TODO: ADD USERS -->
+  <div class="form-group">
+    <%= f.label :assignee_id, 'Assigned To' %>
+    <%= f.select :assignee_id, User.all.map { |user| [user.name, user.id] }, class: "form-control" %>
   </div>
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :tag_ids, "Tags" %>
-    <%= f.select :tag_ids, Tag.all.map { |tag| [tag.name, tag.id] }, {}, multiple: true %>
+    <%= f.select :tag_ids, Tag.all.map { |tag| [tag.name, tag.id] }, {}, multiple: true, class: "form-control" %>
   </div>
-  <%= f.submit "Create Ticket" %>
+  <%= f.submit (@ticket.new_record? ? "Create Ticket" : "Update Ticket"), class: "btn btn-success" %>
 <% end %>

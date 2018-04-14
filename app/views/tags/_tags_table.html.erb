@@ -1,0 +1,31 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Number of Tickets</th>
+      <% if logged_in? %>
+        <th scope="col">Action</th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% tags.uniq.sort { |a, b| a[:name] <=> b[:name] }.each do |tag| %>
+      <tr>
+        <td>
+          <%= tag[:name] %>
+        </td>
+        <td>
+          <%= Ticket.all.count { |ticket| ticket.tags.map { |t| t.id }.include?(tag.id) } %>
+        </td>
+        <% if logged_in? %>
+          <td>
+            <%= link_to 'Edit', edit_tag_path(tag[:id]) %>
+            or
+            <%= link_to 'Destroy', tag_path(tag[:id]), method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-danger" %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

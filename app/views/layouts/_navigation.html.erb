@@ -1,16 +1,35 @@
-<div class="navigation">
-  <ul>
-    <li>
-      Ticketing
-    </li>
-    <li>
-      <%= link_to "Projects", projects_path %>
-    </li>
-    <li>
-      <%= link_to "Tickets", tickets_path %>
-    </li>
-    <li>
-      <%= link_to "Tags", tags_path %>
-    </li>
-  </ul>
-</div>
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container">
+    <div class="navbar-header">
+      <%= link_to "Ticketing", projects_path, class: "navbar-brand" %>
+    </div>
+    <ul class="nav navbar-nav nav-tabs">
+      <li class="nav-item">
+        <%= link_to "Projects", projects_path %>
+      </li>
+      <li class="nav-item">
+        <%= link_to "Tickets", tickets_path %>
+      </li>
+      <li class="nav-item">
+        <%= link_to "Tags", tags_path %>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <% if logged_in? %>
+        <li>
+          Logged in as <%= current_user.name %>
+        </li>
+        <li>
+          <%= link_to "Logout", logout_path %>
+        </li>
+      <% else %>
+        <li>
+          <%= link_to "Login", login_path %>
+        </li>
+        <li>
+          <%= link_to "Sign Up", register_path %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</nav>

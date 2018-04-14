@@ -1,4 +1,4 @@
 class Project < ActiveRecord::Base
-  has_many :tickets, foreign_key: :project_id
+  has_many :tickets, dependent: :destroy
   validates :name, presence: true
 end
