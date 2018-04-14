@@ -22,9 +22,15 @@
     <%= f.label :assignee_id, 'Assigned To' %>
     <%= f.select :assignee_id, User.all.map { |user| [user.name, user.id] }, class: "form-control" %>
   </div>
-  <div class="form-group">
-    <%= f.label :tag_ids, "Tags" %>
-    <%= f.select :tag_ids, Tag.all.map { |tag| [tag.name, tag.id] }, {}, multiple: true, class: "form-control" %>
-  </div>
+  <% if Tag.all.present? %>
+    <div class="form-group">
+      <%= f.label :tag_ids, "Tags" %>
+      <%= f.select :tag_ids, Tag.all.map { |tag| [tag.name, tag.id] }, {}, multiple: true, class: "form-control" %>
+    </div>
+  <% else %>
+    <p>
+      <em>No tags exist yet!</em>
+    </p>
+  <% end %>
   <%= f.submit (@ticket.new_record? ? "Create Ticket" : "Update Ticket"), class: "btn btn-success" %>
 <% end %>
